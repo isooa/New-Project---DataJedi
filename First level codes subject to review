@@ -1,0 +1,43 @@
+Top customers by total quantity of products orders
+
+WITH mergedorder AS (SELECT orderid, SUM(quantity) totalorderquantity
+FROM orderdetails
+GROUP BY orderid)
+
+SELECT customername, sum(totalorderquantity)
+FROM customers c
+JOIN orders o
+ON c.customerid=o.customerid
+JOIN mergedorder m
+ON m.orderid=o.orderid
+GROUP BY 1
+ORDER BY 2 DESC
+
+
+
+Top customers by total spend on products
+
+WITH mergedorder AS (SELECT orderid, sum(quantity*price) totalspend
+FROM orderdetails o
+JOIN products p
+ON p.productid=o.productid
+GROUP BY orderid)
+
+SELECT customername, sum(totalspend)
+FROM customers c
+JOIN orders o
+ON c.customerid=o.customerid
+JOIN mergedorder m
+ON m.orderid=o.orderid
+GROUP BY 1
+ORDER BY 2 DESC
+
+
+Top customers by total orders made
+
+SELECT customername, COUNT(orderid)
+FROM customers c
+JOIN orders o
+ON c.customerid=o.customerid
+GROUP BY 1
+ORDER BY 2 DESC
