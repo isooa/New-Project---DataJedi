@@ -1,0 +1,47 @@
+2. Region with the highest sales
+
+WITH mergedorder AS (SELECT orderid, sum(quantity*price) totalspend
+FROM orderdetails o
+JOIN products p
+ON p.productid=o.productid
+GROUP BY orderid)
+
+SELECT country, sum(totalspend)
+FROM customers c
+JOIN orders o
+ON c.customerid=o.customerid
+JOIN mergedorder m
+ON m.orderid=o.orderid
+GROUP BY 1
+ORDER BY 2 DESC
+
+3. 
+Products with highest sales
+
+SELECT productname, SUM(quantity*price)
+FROM orderdetails o
+JOIN products p
+ON p.productid=o.productid
+GROUP BY 1
+ORDER BY 2 DESC
+
+
+4.
+Highest performing employees by sales
+
+WITH mergedorder AS (SELECT orderid, sum(quantity*price) totalspend
+FROM orderdetails o
+JOIN products p
+ON p.productid=o.productid
+GROUP BY orderid)
+
+SELECT firstname||' '||lastname, sum(totalspend)
+FROM customers c
+JOIN orders o
+ON c.customerid=o.customerid
+JOIN mergedorder m
+ON m.orderid=o.orderid
+JOIN employees e
+ON o.employeeid=e.employeeid
+GROUP BY 1
+ORDER BY 2 DESC
