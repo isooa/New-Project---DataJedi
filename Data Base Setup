@@ -227,3 +227,10 @@ OrderDetailsID int PRIMARY KEY,
 	Quantity int
 )
 
+CREATE TABLE Orders (
+	OrderID int PRIMARY KEY,
+	CustomerID int,
+	EmployeeID int,
+	OrderDate date,
+	ShipperID int
+)
