@@ -45,3 +45,23 @@ JOIN employees e
 ON o.employeeid=e.employeeid
 GROUP BY 1
 ORDER BY 2 DESC
+
+5.
+
+Top customers with total spend on beverages
+
+WITH mergedorder AS (SELECT orderid, sum(quantity*price) totalspend
+FROM orderdetails o
+JOIN products p
+ON p.productid=o.productid
+WHERE categoryid=1
+GROUP BY orderid)
+
+SELECT customername, sum(totalspend)
+FROM customers c
+JOIN orders o
+ON c.customerid=o.customerid
+JOIN mergedorder m
+ON m.orderid=o.orderid
+GROUP BY 1
+ORDER BY 2 DESC
